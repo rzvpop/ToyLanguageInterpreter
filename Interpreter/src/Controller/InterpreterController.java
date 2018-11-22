@@ -68,7 +68,6 @@ public class InterpreterController
                 repo.logPrgStateExec();
 
             }
-            System.gc();
         }
         catch (Exception e)
         {
