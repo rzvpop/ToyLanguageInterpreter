@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class InterpreterController
@@ -34,7 +33,7 @@ public class InterpreterController
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public ProgramState oneStep(ProgramState ps) throws UndeclaredEx, StackEx, ExprEx, IOException, AlreadyOpenedFileEx, InexVarEx, MemoryEx
+    private ProgramState oneStep(ProgramState ps) throws UndeclaredEx, StackEx, ExprEx, IOException, AlreadyOpenedFileEx, InexVarEx, MemoryEx
     {
         MyStack<IStatement> stk = ps.getExeStack();
 
@@ -64,7 +63,7 @@ public class InterpreterController
                 ps.getHeap().setMap((HashMap<Integer, Integer>)
                         conservativeGarbageCollector(sym_table_values, heap_map));
                 ps.getHeap().writeAddr(0, 0);
-                //System.out.println(GetPrgStateStr());
+                System.out.println(ps.toString());
                 repo.logPrgStateExec();
 
             }
@@ -83,31 +82,14 @@ public class InterpreterController
 
             throw e;
         }
+        finally
+        {
+            //Close opened files
+        }
     }
 
     public Repo getRepo()
     {
         return repo;
-    }
-
-    public String GetPrgStateStr()
-    {
-        String str = "";
-        ProgramState ps = repo.getCurrPrg();
-
-        MyStack<IStatement> exe_stack = ps.getExeStack();
-        MyDictionary<String, Integer> sym_table = ps.getSymTable();
-        MyList<Integer> out = ps.getOutput();
-
-        str += "ExeStack:\n";
-        str += exe_stack.toString() + "\n";
-
-        str += "Symbol table:\n";
-        str += sym_table.toString() + "\n";
-
-        str += "Output:\n";
-        str += out.toString() + "\n";
-
-        return str;
     }
 }

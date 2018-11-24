@@ -1,12 +1,10 @@
 package View.Menu;
 
 import Controller.InterpreterController;
-import Model.ADT.MyDictionary;
-import Model.ADT.MyStack;
 
 public class RunExemple extends Command
 {
-    InterpreterController ctrl;
+    private InterpreterController ctrl;
 
     public RunExemple(String key, String description, InterpreterController ctrl)
     {

@@ -83,4 +83,24 @@ public class ProgramState
     public IStatement getCurrPrg() {
         return this.program;
     }
+
+    @Override
+    public String toString()
+    {
+        String str = "";
+
+        str += "ExeStack:\n";
+        str += exeStack.toString() + "\n";
+
+        str += "Symbol table:\n";
+        str += symTable.toString() + "\n";
+
+        str += "Output:\n";
+        str += output.toString() + "\n";
+
+        str += "Heap:\n";
+        str += heap.toString() + "\n";
+
+        return str;
+    }
 }

@@ -52,30 +52,13 @@ public class Repo implements IRepo
     {
         PrintWriter pw = null;
 
-        try {
+        try
+        {
             FileWriter fl = new FileWriter(new File(filename.toString()), true);
             BufferedWriter bf = new BufferedWriter(fl);
             pw = new PrintWriter(bf);
 
-            String str = "";
-            ProgramState ps = prgStates.get(current);
-
-            MyStack<IStatement> exe_stack = ps.getExeStack();
-            MyDictionary<String, Integer> sym_table = ps.getSymTable();
-            MyList<Integer> out = ps.getOutput();
-            Heap heap = ps.getHeap();
-
-            str += "ExeStack:\n";
-            str += exe_stack.toString() + "\n";
-
-            str += "Symbol table:\n";
-            str += sym_table.toString() + "\n";
-
-            str += "Output:\n";
-            str += out.toString() + "\n";
-
-            str += "Heap:\n";
-            str += heap.toString() + "\n";
+            String str = prgStates.get(current).toString();
 
             System.out.println(str);
             pw.println(str);

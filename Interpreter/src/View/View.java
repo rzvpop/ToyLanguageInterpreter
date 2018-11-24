@@ -139,8 +139,6 @@ public class View
         menu.addCommand(new RunExemple("6", stm6.toString(), ctrl6));*/
         menu.addCommand(new RunExemple("7", stm7.toString(), ctrl7));
 
-        //System.out.println(repo1.getCurrPrg().getCurrPrg().toString());
-
         menu.show();
     }
 }
