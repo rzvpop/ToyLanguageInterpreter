@@ -36,15 +36,15 @@ public class InterpreterController
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    private void CloseOpenedFiles(MyDictionary<String, Integer> sym_table, MyDictionary<Integer, Pair<String, BufferedReader>> ft)
+    private void CloseOpenedFiles(ProgramState ps) throws MemoryEx, IOException, InexVarEx, ExprEx, UndeclaredEx, AlreadyOpenedFileEx
     {
-        List<Map.Entry<Integer, Pair<String, BufferedReader>>> files = ft.All().entrySet().stream().
-                filter(e -> sym_table.All().values().contains(e.getKey())).
+        List<Map.Entry<Integer, Pair<String, BufferedReader>>> files = ps.getFileTable().All().entrySet().stream().
+                filter(e -> ps.getSymTable().All().values().contains(e.getKey())).
                 collect(Collectors.toList());
 
         for(Map.Entry<Integer, Pair<String, BufferedReader>> k : files)
         {
-            new CloseRFile(new ConstExp(k.getKey()));
+            new CloseRFile(new ConstExp(k.getKey())).execute(ps);
         }
 
     }
@@ -65,9 +65,11 @@ public class InterpreterController
 
     public void allStep() throws UndeclaredEx, StackEx, ExprEx, IOException, AlreadyOpenedFileEx, InexVarEx, MemoryEx
     {
+        ProgramState ps = null;
+
         try
         {
-            ProgramState ps = repo.getCurrPrg();
+            ps = repo.getCurrPrg();
             ps.putPrgOnStack();
 
             while(!ps.getExeStack().isEmpty())
@@ -100,7 +102,8 @@ public class InterpreterController
         }
         finally
         {
-            CloseOpenedFiles(repo.getCurrPrg().getSymTable(), repo.getCurrPrg().getFileTable());
+            CloseOpenedFiles(repo.getCurrPrg());
+            //System.out.println(ps.toString());
         }
     }
 

@@ -101,6 +101,9 @@ public class ProgramState
         str += "Heap:\n";
         str += heap.toString() + "\n";
 
+        str += "File table:\n";
+        str += FileTable.toString();
+
         return str;
     }
 }

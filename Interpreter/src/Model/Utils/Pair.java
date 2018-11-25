@@ -25,4 +25,10 @@ public class Pair<T, U>
     {
         return (this.first.equals(p.GetFirst()) && this.second.equals(p.GetSecond()));
     }
+
+    @Override
+    public String toString()
+    {
+        return "(" + first.toString() + ", " + second.toString() + ")";
+    }
 }
