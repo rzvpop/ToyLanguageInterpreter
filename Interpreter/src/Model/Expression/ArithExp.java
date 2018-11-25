@@ -1,9 +1,6 @@
 package Model.Expression;
 
-import Exceptions.ExprEx;
-import Exceptions.InexVarEx;
-import Exceptions.MemoryEx;
-import Exceptions.UndeclaredEx;
+import Exceptions.*;
 import Model.ADT.MyDictionary;
 import Model.Utils.Heap;
 
@@ -53,7 +50,7 @@ public class ArithExp implements IExpression
                 //break;
 
             default:
-                throw new RuntimeException("invalid");
+                throw new SyntaxEx("Invalid boolean operator.");
         }
     }
 }

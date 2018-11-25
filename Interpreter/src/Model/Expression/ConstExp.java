@@ -17,7 +17,8 @@ public class ConstExp implements IExpression
         this.value = value;
     }
 
-    public int evaluate(MyDictionary<String, Integer> st, Heap heap) {
+    public int evaluate(MyDictionary<String, Integer> st, Heap heap)
+    {
         return this.value;
     }
 }

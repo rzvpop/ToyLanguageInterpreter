@@ -95,6 +95,29 @@ public class View
         repo5.add(prg5);
         InterpreterController ctrl5 = new InterpreterController(repo5);
 
+        */
+        IStatement stm5_2 = new CompoundStm(
+                new OpenRFile("var_f", "test.in"), new CompoundStm(
+                new ReadFile(new VarExp("var_f"), "var_c"), new CompoundStm(
+                new PrintStm(new VarExp("var_c")),
+                new IfStm(new VarExp("var_c"), new CompoundStm(
+                        new ReadFile(new VarExp("var_f"), "var_c"),
+                        new PrintStm(new VarExp("var_c"))
+                ),
+                        new PrintStm(new ConstExp(0))
+                )
+
+        )
+        )
+        );
+
+        Repo repo5_2 = new Repo(new StringBuilder("log_file5.txt"));
+        Heap heap5_2 = new Heap();
+        ProgramState prg5_2 = new ProgramState(stm5_2, sym_table, exe_stack, out, file_table, heap5_2);
+        repo5_2.add(prg5_2);
+        InterpreterController ctrl5_2 = new InterpreterController(repo5_2);
+        /*
+
         IStatement stm6 = new CompoundStm(
                 new OpenRFile("var_f", "test.in"), new CompoundStm(
                     new ReadFile(new ArithExp(new VarExp("var_f"), new ConstExp(2), '+'), "var_c"), new CompoundStm(
@@ -134,9 +157,9 @@ public class View
         menu.addCommand(new RunExemple("1", stm1.toString(), ctrl1));
         /*menu.addCommand(new RunExemple("2", stm2.toString(), ctrl2));
         menu.addCommand(new RunExemple("3", stm3.toString(), ctrl3));
-        menu.addCommand(new RunExemple("4", stm4.toString(), ctrl4));
-        menu.addCommand(new RunExemple("5", stm5.toString(), ctrl5));
-        menu.addCommand(new RunExemple("6", stm6.toString(), ctrl6));*/
+        menu.addCommand(new RunExemple("4", stm4.toString(), ctrl4));*/
+        menu.addCommand(new RunExemple("5", stm5_2.toString(), ctrl5_2));
+        /*menu.addCommand(new RunExemple("6", stm6.toString(), ctrl6));*/
         menu.addCommand(new RunExemple("7", stm7.toString(), ctrl7));
 
         menu.show();

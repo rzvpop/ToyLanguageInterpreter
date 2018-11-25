@@ -61,10 +61,16 @@ public class MyDictionary <K, V> implements MyIDictionary<K, V>
         return this.dict.entrySet();
     }
 
+    public Map<K, V> All()
+    {
+        return dict;
+    }
+
     public Collection<Integer> getValues()
     {
         return (Collection<Integer>) dict.values();
     }
+    //V i nloc de Integer :-?
 
     public String toString()
     {

@@ -4,7 +4,9 @@ import Exceptions.*;
 import Model.ADT.MyDictionary;
 import Model.ADT.MyList;
 import Model.ADT.MyStack;
+import Model.Expression.ConstExp;
 import Model.ProgramState;
+import Model.Statement.CloseRFile;
 import Model.Statement.IStatement;
 import Model.Utils.Pair;
 import Repository.Repo;
@@ -13,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,19 @@ public class InterpreterController
         return heap.entrySet().stream()
                 .filter(e->symTableValues.contains(e.getKey()))
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    private void CloseOpenedFiles(MyDictionary<String, Integer> sym_table, MyDictionary<Integer, Pair<String, BufferedReader>> ft)
+    {
+        List<Map.Entry<Integer, Pair<String, BufferedReader>>> files = ft.All().entrySet().stream().
+                filter(e -> sym_table.All().values().contains(e.getKey())).
+                collect(Collectors.toList());
+
+        for(Map.Entry<Integer, Pair<String, BufferedReader>> k : files)
+        {
+            new CloseRFile(new ConstExp(k.getKey()));
+        }
+
     }
 
     private ProgramState oneStep(ProgramState ps) throws UndeclaredEx, StackEx, ExprEx, IOException, AlreadyOpenedFileEx, InexVarEx, MemoryEx
@@ -84,7 +100,7 @@ public class InterpreterController
         }
         finally
         {
-            //Close opened files
+            CloseOpenedFiles(repo.getCurrPrg().getSymTable(), repo.getCurrPrg().getFileTable());
         }
     }
 
