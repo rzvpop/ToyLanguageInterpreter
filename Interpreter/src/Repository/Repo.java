@@ -49,7 +49,7 @@ public class Repo implements IRepo
     }
 
     @Override
-    public void logPrgStateExec() throws IOException
+    public void logPrgStateExec(ProgramState ps) throws IOException
     {
         PrintWriter pw = null;
 
@@ -59,7 +59,7 @@ public class Repo implements IRepo
             BufferedWriter bf = new BufferedWriter(fl);
             pw = new PrintWriter(bf);
 
-            String str = prgStates.get(current).toString();
+            String str = ps.toString();
 
             System.out.println(str);
             pw.println(str);

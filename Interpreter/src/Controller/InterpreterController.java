@@ -82,7 +82,7 @@ public class InterpreterController
                         conservativeGarbageCollector(sym_table_values, heap_map));
                 ps.getHeap().writeAddr(0, 0);
                 System.out.println(ps.toString());
-                repo.logPrgStateExec();
+                repo.logPrgStateExec(ps);
 
             }
         }

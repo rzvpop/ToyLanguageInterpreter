@@ -84,6 +84,11 @@ public class ProgramState
         return this.program;
     }
 
+    Boolean isNotCompleted()
+    {
+        return !exeStack.isEmpty();
+    }
+
     @Override
     public String toString()
     {

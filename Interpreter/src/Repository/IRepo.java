@@ -9,7 +9,7 @@ public interface IRepo
 {
     ProgramState getCurrPrg();
     void add(ProgramState p);
-    void logPrgStateExec() throws IOException;
+    void logPrgStateExec(ProgramState ps) throws IOException;
     List<ProgramState> GetList();
     void SetList(List<ProgramState> prg_list);
 }
