@@ -29,17 +29,17 @@ public class Bool implements IExpression
         switch(operator)
         {
             case "<":
-                return ((firstRes < secondRes)?0:1);
+                return ((firstRes < secondRes)?1:0);
             case "<=":
-                return ((firstRes <= secondRes)?0:1);
+                return ((firstRes <= secondRes)?1:0);
             case "==":
-                return ((firstRes == secondRes)?0:1);
+                return ((firstRes == secondRes)?1:0);
             case "!=":
-                return ((firstRes != secondRes)?0:1);
+                return ((firstRes != secondRes)?1:0);
             case ">":
-                return ((firstRes > secondRes)?0:1);
+                return ((firstRes > secondRes)?1:0);
             case ">=":
-                return ((firstRes >= secondRes)?0:1);
+                return ((firstRes >= secondRes)?1:0);
             default:
                 throw new RuntimeException("");
         }

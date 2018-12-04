@@ -4,10 +4,7 @@ import Controller.InterpreterController;
 import Model.ADT.MyDictionary;
 import Model.ADT.MyList;
 import Model.ADT.MyStack;
-import Model.Expression.ArithExp;
-import Model.Expression.ConstExp;
-import Model.Expression.RH;
-import Model.Expression.VarExp;
+import Model.Expression.*;
 import Model.ProgramState;
 import Model.Statement.*;
 import Model.Utils.Heap;
@@ -30,10 +27,10 @@ public class View
         filename = new StringBuilder();
         filename.append(read.next());*/
 
-        MyStack<IStatement> exe_stack = new MyStack<>(5);
-        MyDictionary<String, Integer> sym_table = new MyDictionary<>();
-        MyList<Integer> out = new MyList<>();
-        MyDictionary<Integer, Pair<String, BufferedReader>> file_table = new MyDictionary<>();
+        MyStack<IStatement> exe_stack1 = new MyStack<>(5);
+        MyDictionary<String, Integer> sym_table1 = new MyDictionary<>();
+        MyList<Integer> out1 = new MyList<>();
+        MyDictionary<Integer, Pair<String, BufferedReader>> file_table1 = new MyDictionary<>();
 
         IStatement stm1 = new CompoundStm(new AssignmentStm("a", new ConstExp(7)),
                 new CompoundStm(new AssignmentStm("b", new ConstExp(3)),
@@ -42,7 +39,7 @@ public class View
 
         Repo repo1 = new Repo(new StringBuilder("log_file1.txt"));
         Heap heap1 = new Heap();
-        ProgramState prg1 = new ProgramState(stm1, sym_table, exe_stack, out, file_table, heap1);
+        ProgramState prg1 = new ProgramState(stm1, sym_table1, exe_stack1, out1, file_table1, heap1);
         repo1.add(prg1);
         InterpreterController ctrl1 = new InterpreterController(repo1);
 
@@ -96,7 +93,7 @@ public class View
         InterpreterController ctrl5 = new InterpreterController(repo5);
 
         */
-        IStatement stm5_2 = new CompoundStm(
+        /*IStatement stm5_2 = new CompoundStm(
                 new OpenRFile("var_f", "test.in"), new CompoundStm(
                 new ReadFile(new VarExp("var_f"), "var_c"), new CompoundStm(
                 new PrintStm(new VarExp("var_c")),
@@ -137,7 +134,7 @@ public class View
         Repo repo6 = new Repo(new StringBuilder("log_file6.txt"));
         ProgramState prg6 = new ProgramState(stm6, sym_table, exe_stack, out, file_table);
         repo6.add(prg6);
-        InterpreterController ctrl6 = new InterpreterController(repo6);*/
+        InterpreterController ctrl6 = new InterpreterController(repo6);
 
         IStatement stm7 = new CompoundStm(new New("v", new ConstExp(20)),
                             new CompoundStm(new New("a", new ArithExp(
@@ -150,17 +147,35 @@ public class View
         Heap heap7 = new Heap();
         ProgramState prg7 = new ProgramState(stm7, sym_table, exe_stack, out, file_table, heap7);
         repo7.add(prg7);
-        InterpreterController ctrl7 = new InterpreterController(repo7);
+        InterpreterController ctrl7 = new InterpreterController(repo7);*/
+
+        IStatement stm8 = new CompoundStm(
+                            new AssignmentStm("a", new ConstExp(5)),
+                            new While(new Bool(new VarExp("a"), new ConstExp(0), ">"),
+                                    new CompoundStm(new PrintStm(new VarExp("a")), new AssignmentStm(
+                                            "a", new ArithExp(new VarExp("a"), new ConstExp(1), '-'))))
+                        );
+
+        MyStack<IStatement> exe_stack8 = new MyStack<>(5);
+        MyDictionary<String, Integer> sym_table8 = new MyDictionary<>();
+        MyList<Integer> out8 = new MyList<>();
+        MyDictionary<Integer, Pair<String, BufferedReader>> file_table8 = new MyDictionary<>();
+        Repo repo8 = new Repo(new StringBuilder("log_file8.txt"));
+        Heap heap8 = new Heap();
+        ProgramState prg8 = new ProgramState(stm8, sym_table8, exe_stack8, out8, file_table8, heap8);
+        repo8.add(prg8);
+        InterpreterController ctrl8 = new InterpreterController(repo8);
 
         TextMenu menu = new TextMenu();
         menu.addCommand(new ExitCommand("0", "exit"));
         menu.addCommand(new RunExemple("1", stm1.toString(), ctrl1));
         /*menu.addCommand(new RunExemple("2", stm2.toString(), ctrl2));
         menu.addCommand(new RunExemple("3", stm3.toString(), ctrl3));
-        menu.addCommand(new RunExemple("4", stm4.toString(), ctrl4));*/
+        menu.addCommand(new RunExemple("4", stm4.toString(), ctrl4));
         menu.addCommand(new RunExemple("5", stm5_2.toString(), ctrl5_2));
-        /*menu.addCommand(new RunExemple("6", stm6.toString(), ctrl6));*/
-        menu.addCommand(new RunExemple("7", stm7.toString(), ctrl7));
+        menu.addCommand(new RunExemple("6", stm6.toString(), ctrl6));
+        menu.addCommand(new RunExemple("7", stm7.toString(), ctrl7));*/
+        menu.addCommand(new RunExemple("8", stm8.toString(), ctrl8));
 
         menu.show();
     }

@@ -86,8 +86,10 @@ public class InterpreterController
 
             }
         }
-        catch (Exception e)
+        finally
         {
+            CloseOpenedFiles(repo.getCurrPrg());
+            //System.out.println(ps.toString());
             MyStack<IStatement> exe_stack = repo.getCurrPrg().getExeStack();
             MyDictionary<String, Integer> sym_table = repo.getCurrPrg().getSymTable();
             MyList<Integer> out = repo.getCurrPrg().getOutput();
@@ -97,13 +99,6 @@ public class InterpreterController
             sym_table.clear();
             out.clear();
             file_table.clear();
-
-            throw e;
-        }
-        finally
-        {
-            CloseOpenedFiles(repo.getCurrPrg());
-            //System.out.println(ps.toString());
         }
     }
 

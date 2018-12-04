@@ -1,6 +1,7 @@
 package Model.ADT;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyList<E> implements MyIList<E>
 {
@@ -43,5 +44,15 @@ public class MyList<E> implements MyIList<E>
         }
 
         return str;
+    }
+
+    public ArrayList<E> GetArrayList()
+    {
+        return this.elems;
+    }
+
+    public void SetList(List<E> list)
+    {
+        this.elems = (ArrayList<E>)list;
     }
 }

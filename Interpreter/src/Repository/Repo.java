@@ -8,6 +8,7 @@ import Model.Statement.IStatement;
 import Model.Utils.Heap;
 
 import java.io.*;
+import java.util.List;
 
 public class Repo implements IRepo
 {
@@ -70,5 +71,17 @@ public class Repo implements IRepo
             if(pw != null)
                 pw.close();
         }
+    }
+
+    @Override
+    public List<ProgramState> GetList()
+    {
+        return prgStates.GetArrayList();
+    }
+
+    @Override
+    public void SetList(List<ProgramState> prg_list)
+    {
+        prgStates.SetList(prg_list);
     }
 }
