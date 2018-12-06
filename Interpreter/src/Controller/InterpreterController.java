@@ -39,23 +39,12 @@ public class InterpreterController
     private void CloseOpenedFiles(ProgramState ps) throws MemoryEx, IOException, InexVarEx, ExprEx, UndeclaredEx, AlreadyOpenedFileEx
     {
         List<Map.Entry<Integer, Pair<String, BufferedReader>>> files = ps.getFileTable().All().entrySet().stream().
-                filter(e -> ps.getSymTable().All().values().contains(e.getKey())).
                 collect(Collectors.toList());
 
         for(Map.Entry<Integer, Pair<String, BufferedReader>> k : files)
         {
             new CloseRFile(new ConstExp(k.getKey())).execute(ps);
         }
-
-        ps.getFileTable().All().forEach((key, value) ->
-        {
-            try {
-                new CloseRFile(new ConstExp(key)).execute(ps);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
     }
 
     private ProgramState oneStep(ProgramState ps) throws UndeclaredEx, StackEx, ExprEx, IOException, AlreadyOpenedFileEx, InexVarEx, MemoryEx
