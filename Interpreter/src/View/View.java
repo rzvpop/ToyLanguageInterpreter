@@ -108,9 +108,13 @@ public class View
         )
         );
 
+        MyStack<IStatement> exe_stack5 = new MyStack<>(5);
+        MyDictionary<String, Integer> sym_table5 = new MyDictionary<>();
+        MyList<Integer> out5 = new MyList<>();
+        MyDictionary<Integer, Pair<String, BufferedReader>> file_table5 = new MyDictionary<>();
         Repo repo5_2 = new Repo(new StringBuilder("log_file5.txt"));
         Heap heap5_2 = new Heap();
-        ProgramState prg5_2 = new ProgramState(stm5_2, sym_table, exe_stack, out, file_table, heap5_2);
+        ProgramState prg5_2 = new ProgramState(stm5_2, sym_table5, exe_stack5, out5, file_table5, heap5_2);
         repo5_2.add(prg5_2);
         InterpreterController ctrl5_2 = new InterpreterController(repo5_2);
         /*
@@ -173,7 +177,7 @@ public class View
         menu.addCommand(new RunExemple("3", stm3.toString(), ctrl3));
         menu.addCommand(new RunExemple("4", stm4.toString(), ctrl4));
         menu.addCommand(new RunExemple("5", stm5_2.toString(), ctrl5_2));
-        menu.addCommand(new RunExemple("6", stm6.toString(), ctrl6));
+        /*menu.addCommand(new RunExemple("6", stm6.toString(), ctrl6));
         menu.addCommand(new RunExemple("7", stm7.toString(), ctrl7));*/
         menu.addCommand(new RunExemple("8", stm8.toString(), ctrl8));
 

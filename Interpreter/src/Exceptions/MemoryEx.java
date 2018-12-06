@@ -1,6 +1,6 @@
 package Exceptions;
 
-public class MemoryEx extends Exception
+public class MemoryEx extends RuntimeException
 {
     public MemoryEx(String s)
     {

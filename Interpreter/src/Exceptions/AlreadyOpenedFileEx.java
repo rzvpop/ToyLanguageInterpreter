@@ -1,6 +1,6 @@
 package Exceptions;
 
-public class AlreadyOpenedFileEx extends Exception
+public class AlreadyOpenedFileEx extends RuntimeException
 {
     public AlreadyOpenedFileEx(String s)
     {

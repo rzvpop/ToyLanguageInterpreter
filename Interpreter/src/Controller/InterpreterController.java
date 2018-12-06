@@ -47,6 +47,18 @@ public class InterpreterController
             new CloseRFile(new ConstExp(k.getKey())).execute(ps);
         }
 
+        ps.getFileTable().All().forEach((k, v) ->
+        {
+            try
+            {
+                new CloseRFile(new ConstExp(k)).execute(ps);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        });
+
     }
 
     private ProgramState oneStep(ProgramState ps) throws UndeclaredEx, StackEx, ExprEx, IOException, AlreadyOpenedFileEx, InexVarEx, MemoryEx

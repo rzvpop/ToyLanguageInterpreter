@@ -1,6 +1,6 @@
 package Exceptions;
 
-public class StackEx extends Exception
+public class StackEx extends RuntimeException
 {
     public StackEx(String s)
     {

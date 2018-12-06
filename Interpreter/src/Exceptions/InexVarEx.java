@@ -1,6 +1,6 @@
 package Exceptions;
 
-public class InexVarEx extends Exception
+public class InexVarEx extends RuntimeException
 {
     public InexVarEx(String s)
     {
