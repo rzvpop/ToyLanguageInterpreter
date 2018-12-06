@@ -93,7 +93,7 @@ public class View
         InterpreterController ctrl5 = new InterpreterController(repo5);
 
         */
-        /*IStatement stm5_2 = new CompoundStm(
+        IStatement stm5_2 = new CompoundStm(
                 new OpenRFile("var_f", "test.in"), new CompoundStm(
                 new ReadFile(new VarExp("var_f"), "var_c"), new CompoundStm(
                 new PrintStm(new VarExp("var_c")),
@@ -175,7 +175,7 @@ public class View
         menu.addCommand(new RunExemple("1", stm1.toString(), ctrl1));
         /*menu.addCommand(new RunExemple("2", stm2.toString(), ctrl2));
         menu.addCommand(new RunExemple("3", stm3.toString(), ctrl3));
-        menu.addCommand(new RunExemple("4", stm4.toString(), ctrl4));
+        menu.addCommand(new RunExemple("4", stm4.toString(), ctrl4));*/
         menu.addCommand(new RunExemple("5", stm5_2.toString(), ctrl5_2));
         /*menu.addCommand(new RunExemple("6", stm6.toString(), ctrl6));
         menu.addCommand(new RunExemple("7", stm7.toString(), ctrl7));*/

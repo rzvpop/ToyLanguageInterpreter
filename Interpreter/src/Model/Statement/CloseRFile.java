@@ -38,7 +38,10 @@ public class CloseRFile implements IStatement
         if(br != null)
             br.close();
 
+        System.out.println(file_table.toString());
         file_table.remove(id);
+
+        System.out.println(file_table.toString());
 
         return ps;
     }

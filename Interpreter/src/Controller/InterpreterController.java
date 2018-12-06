@@ -47,14 +47,11 @@ public class InterpreterController
             new CloseRFile(new ConstExp(k.getKey())).execute(ps);
         }
 
-        ps.getFileTable().All().forEach((k, v) ->
+        ps.getFileTable().All().forEach((key, value) ->
         {
-            try
-            {
-                new CloseRFile(new ConstExp(k)).execute(ps);
-            }
-            catch (IOException e)
-            {
+            try {
+                new CloseRFile(new ConstExp(key)).execute(ps);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
