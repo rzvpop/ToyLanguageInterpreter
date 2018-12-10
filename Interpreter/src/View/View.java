@@ -170,6 +170,28 @@ public class View
         repo8.add(prg8);
         InterpreterController ctrl8 = new InterpreterController(repo8);
 
+        IStatement stm9 = new CompoundStm(new AssignmentStm("v", new ConstExp(10)),
+                            new CompoundStm(new New("a", new ConstExp(22)),
+                            new CompoundStm(new Fork(
+                            new CompoundStm(new WH("a", new ConstExp(30)),
+                            new CompoundStm(new AssignmentStm("v", new ConstExp(32)),
+                            new CompoundStm(new PrintStm(new VarExp("v")),
+                                                            new PrintStm(new RH("a")))))
+                                                ),
+                            new CompoundStm(new PrintStm(new VarExp("v")),
+                                                            new PrintStm(new RH("a"))))));
+
+        MyStack<IStatement> exe_stack9 = new MyStack<>(5);
+        MyDictionary<String, Integer> sym_table9 = new MyDictionary<>();
+        MyList<Integer> out9 = new MyList<>();
+        MyDictionary<Integer, Pair<String, BufferedReader>> file_table9 = new MyDictionary<>();
+        Repo repo9 = new Repo(new StringBuilder("log_file9.txt"));
+        Heap heap9 = new Heap();
+        ProgramState prg9 = new ProgramState(stm9, sym_table9, exe_stack9, out9, file_table9, heap9);
+        prg9.setId(1);
+        repo9.add(prg9);
+        InterpreterController ctrl9 = new InterpreterController(repo9);
+
         TextMenu menu = new TextMenu();
         menu.addCommand(new ExitCommand("0", "exit"));
         menu.addCommand(new RunExemple("1", stm1.toString(), ctrl1));
@@ -180,6 +202,7 @@ public class View
         /*menu.addCommand(new RunExemple("6", stm6.toString(), ctrl6));
         menu.addCommand(new RunExemple("7", stm7.toString(), ctrl7));*/
         menu.addCommand(new RunExemple("8", stm8.toString(), ctrl8));
+        menu.addCommand(new RunExemple("9", stm9.toString(), ctrl9));
 
         menu.show();
     }

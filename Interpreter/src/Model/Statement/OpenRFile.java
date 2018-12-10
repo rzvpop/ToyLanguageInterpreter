@@ -42,7 +42,7 @@ public class OpenRFile implements IStatement
         sym_table.put(var_file_id, unq_key);
         ++unq_key;
 
-        return ps;
+        return null;
     }
 
     public String toString()

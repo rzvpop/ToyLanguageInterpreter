@@ -40,7 +40,7 @@ public class CloseRFile implements IStatement
 
         file_table.remove(id);
 
-        return ps;
+        return null;
     }
 
     @Override

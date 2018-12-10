@@ -9,11 +9,10 @@ import Model.Utils.Heap;
 import Model.Utils.Pair;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 
 public class Fork implements IStatement
 {
-    IStatement stm;
+    private IStatement stm;
 
     public Fork(IStatement stm)
     {
@@ -21,10 +20,9 @@ public class Fork implements IStatement
     }
 
     @Override
-    public ProgramState execute(ProgramState ps) throws UndeclaredEx, ExprEx, AlreadyOpenedFileEx, InexVarEx, MemoryEx, IOException
+    public ProgramState execute(ProgramState ps) throws UndeclaredEx, ExprEx, AlreadyOpenedFileEx, InexVarEx, MemoryEx
     {
         MyStack<IStatement> exe_stack = new MyStack<>(5);
-        exe_stack.push(stm);
         MyDictionary<String, Integer> sym_table = new MyDictionary<>(ps.getSymTable());
         MyList<Integer> out = ps.getOutput();
         MyDictionary<Integer, Pair<String, BufferedReader>> file_table = ps.getFileTable();

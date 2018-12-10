@@ -47,7 +47,7 @@ public class ReadFile implements IStatement
             sym_table.put(var_name, Integer.parseInt(s));
         }
 
-        return ps;
+        return null;
     }
 
     @Override

@@ -31,6 +31,6 @@ public class AssignmentStm implements IStatement
         Heap heap = ps.getHeap();
 
         st.put(this.varName, this.expr.evaluate(st, heap));
-        return ps;
+        return null;
     }
 }

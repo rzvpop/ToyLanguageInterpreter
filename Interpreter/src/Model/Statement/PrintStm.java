@@ -26,6 +26,6 @@ public class PrintStm implements IStatement
     {
         MyIList<Integer> output = ps.getOutput();
         output.add(expr.evaluate(ps.getSymTable(), ps.getHeap()));
-        return ps;
+        return null;
     }
 }

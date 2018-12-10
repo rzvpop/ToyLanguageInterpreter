@@ -75,7 +75,7 @@ public class InterpreterController
         prgs.addAll(newPrgList);
 
         prgs.forEach(prg -> repo.logPrgStateExec(prg));
-        repo.SetList(newPrgList);
+        repo.SetList(prgs);
     }
 
     public void allStep() throws UndeclaredEx, StackEx, ExprEx, IOException, AlreadyOpenedFileEx, InexVarEx, MemoryEx, InterruptedException
@@ -83,7 +83,10 @@ public class InterpreterController
         executor = Executors.newFixedThreadPool(2);
 
         List<ProgramState> prgs = repo.GetList();
-        Map<Integer, Integer> heap_map = prgs.get(0).getHeap().getMap();
+        if(repo.GetList() != null)
+            prgs = removeCompletedPrg(repo.GetList());
+        ProgramState FirstProgramState = prgs.get(0);
+        Map<Integer, Integer> heap_map = FirstProgramState.getHeap().getMap();
 
         while(prgs.size() > 0)
         {
@@ -94,11 +97,11 @@ public class InterpreterController
         }
         executor.shutdownNow();
 
+        repo.SetList(prgs);
+
         List<ProgramState> tmpList = repo.GetList();
         if(tmpList != null)
-            CloseOpenedFiles(tmpList.get(0));
-
-        repo.SetList(prgs);
+            CloseOpenedFiles(FirstProgramState);
     }
 
     public Repo getRepo()

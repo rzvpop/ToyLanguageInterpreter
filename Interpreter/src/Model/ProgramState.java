@@ -30,6 +30,8 @@ public class ProgramState
         this.output = _output;
         this.FileTable = _FileTable;
         this.heap = _heap;
+
+        exeStack.push(program);
     }
 
     public void setId(int _id)
@@ -114,6 +116,8 @@ public class ProgramState
     public String toString()
     {
         String str = "";
+
+        str += "id: " + id + "\n";
 
         str += "ExeStack:\n";
         str += exeStack.toString() + "\n";

@@ -33,6 +33,6 @@ public class IfStm implements IStatement
         else
             else_s.execute(ps);
 
-        return ps;
+        return null;
     }
 }

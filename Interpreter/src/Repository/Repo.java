@@ -4,11 +4,12 @@ import Model.ADT.MyList;
 import Model.ProgramState;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Repo implements IRepo
 {
-    private MyList<ProgramState> prgStates;
+    private List<ProgramState> prgStates;
     //private int current;
     private StringBuilder filename;
 
@@ -17,7 +18,7 @@ public class Repo implements IRepo
         filename = fn;
         DeleteFileIfExists();
 
-        prgStates = new MyList<>();
+        prgStates = new ArrayList<>();
         //current = 0;
     }
 
@@ -73,12 +74,12 @@ public class Repo implements IRepo
     @Override
     public List<ProgramState> GetList()
     {
-        return prgStates.GetArrayList();
+        return prgStates;
     }
 
     @Override
     public void SetList(List<ProgramState> prg_list)
     {
-        prgStates.SetList(prg_list);
+        prgStates = prg_list;
     }
 }
