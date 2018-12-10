@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IRepo
 {
-    ProgramState getCurrPrg();
+    //ProgramState getCurrPrg();
     void add(ProgramState p);
     void logPrgStateExec(ProgramState ps) throws IOException;
     List<ProgramState> GetList();

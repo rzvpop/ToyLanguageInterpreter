@@ -1,11 +1,7 @@
 package Repository;
 
-import Model.ADT.MyDictionary;
 import Model.ADT.MyList;
-import Model.ADT.MyStack;
 import Model.ProgramState;
-import Model.Statement.IStatement;
-import Model.Utils.Heap;
 
 import java.io.*;
 import java.util.List;
@@ -13,7 +9,7 @@ import java.util.List;
 public class Repo implements IRepo
 {
     private MyList<ProgramState> prgStates;
-    private int current;
+    //private int current;
     private StringBuilder filename;
 
     public Repo(StringBuilder fn)
@@ -21,8 +17,8 @@ public class Repo implements IRepo
         filename = fn;
         DeleteFileIfExists();
 
-        prgStates = new MyList<ProgramState>();
-        current = 0;
+        prgStates = new MyList<>();
+        //current = 0;
     }
 
     private void DeleteFileIfExists()
@@ -37,10 +33,10 @@ public class Repo implements IRepo
         }
     }
 
-    @Override
+    /*@Override
     public ProgramState getCurrPrg() {
         return this.prgStates.get(current);
-    }
+    }*/
 
     @Override
     public void add(ProgramState p)
@@ -49,7 +45,7 @@ public class Repo implements IRepo
     }
 
     @Override
-    public void logPrgStateExec(ProgramState ps) throws IOException
+    public void logPrgStateExec(ProgramState ps)
     {
         PrintWriter pw = null;
 
@@ -65,8 +61,9 @@ public class Repo implements IRepo
             pw.println(str);
 
             pw.close();
-        }
-        finally
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally
         {
             if(pw != null)
                 pw.close();

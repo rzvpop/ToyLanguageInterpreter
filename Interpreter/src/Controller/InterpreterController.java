@@ -13,15 +13,17 @@ import Repository.Repo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class InterpreterController
 {
     private Repo repo;
+    private ExecutorService executor;
 
     public InterpreterController(Repo repo)
     {
@@ -47,57 +49,56 @@ public class InterpreterController
         }
     }
 
-    private ProgramState oneStep(ProgramState ps) throws UndeclaredEx, StackEx, ExprEx, IOException, AlreadyOpenedFileEx, InexVarEx, MemoryEx
+    List<ProgramState> removeCompletedPrg(List<ProgramState> oldList)
     {
-        MyStack<IStatement> stk = ps.getExeStack();
-
-        if(stk.isEmpty())
-        {
-            throw new StackEx("Empty stack.");
-        }
-
-        IStatement stm = stk.pop();
-
-        return stm.execute(ps);
+        return oldList.stream().filter(ProgramState::isNotCompleted).
+                collect(Collectors.toList());
     }
 
-    public void allStep() throws UndeclaredEx, StackEx, ExprEx, IOException, AlreadyOpenedFileEx, InexVarEx, MemoryEx
+    private void oneStepForAll(List<ProgramState> prgs) throws InterruptedException
     {
-        ProgramState ps = null;
+        prgs.forEach(prg -> repo.logPrgStateExec(prg));
 
-        try
+        List<Callable<ProgramState>> callList = prgs.stream().
+                map((ProgramState p) -> (Callable<ProgramState>) (p::oneStep)).
+                collect(Collectors.toList());
+
+        List<ProgramState> newPrgList = executor.invokeAll(callList).stream()
+                .map(future -> {
+                    try {
+                        return future.get();
+                    } catch (InterruptedException | ExecutionException e) {
+                        throw new RuntimeException("Executor error.");
+                    }
+                }).filter(Objects::nonNull).collect(Collectors.toList());
+
+        prgs.addAll(newPrgList);
+
+        prgs.forEach(prg -> repo.logPrgStateExec(prg));
+        repo.SetList(newPrgList);
+    }
+
+    public void allStep() throws UndeclaredEx, StackEx, ExprEx, IOException, AlreadyOpenedFileEx, InexVarEx, MemoryEx, InterruptedException
+    {
+        executor = Executors.newFixedThreadPool(2);
+
+        List<ProgramState> prgs = repo.GetList();
+        Map<Integer, Integer> heap_map = prgs.get(0).getHeap().getMap();
+
+        while(prgs.size() > 0)
         {
-            ps = repo.getCurrPrg();
-            ps.putPrgOnStack();
-
-            while(!ps.getExeStack().isEmpty())
-            {
-                oneStep(ps);
-
-                Collection<Integer> sym_table_values = ps.getSymTable().getValues();
-                Map<Integer, Integer> heap_map = ps.getHeap().getMap();
-                ps.getHeap().setMap((HashMap<Integer, Integer>)
-                        conservativeGarbageCollector(sym_table_values, heap_map));
-                ps.getHeap().writeAddr(0, 0);
-                System.out.println(ps.toString());
-                repo.logPrgStateExec(ps);
-
-            }
+            prgs.forEach(prg -> conservativeGarbageCollector(prg.getSymTable().getValues(),
+                    heap_map));
+            oneStepForAll(prgs);
+            prgs = removeCompletedPrg(repo.GetList());
         }
-        finally
-        {
-            CloseOpenedFiles(repo.getCurrPrg());
-            //System.out.println(ps.toString());
-            MyStack<IStatement> exe_stack = repo.getCurrPrg().getExeStack();
-            MyDictionary<String, Integer> sym_table = repo.getCurrPrg().getSymTable();
-            MyList<Integer> out = repo.getCurrPrg().getOutput();
-            MyDictionary<Integer, Pair<String, BufferedReader>> file_table = repo.getCurrPrg().getFileTable();
+        executor.shutdownNow();
 
-            exe_stack.clear();
-            sym_table.clear();
-            out.clear();
-            file_table.clear();
-        }
+        List<ProgramState> tmpList = repo.GetList();
+        if(tmpList != null)
+            CloseOpenedFiles(tmpList.get(0));
+
+        repo.SetList(prgs);
     }
 
     public Repo getRepo()

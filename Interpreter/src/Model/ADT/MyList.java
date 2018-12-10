@@ -46,6 +46,11 @@ public class MyList<E> implements MyIList<E>
         return str;
     }
 
+    public int size()
+    {
+        return elems.size();
+    }
+
     public ArrayList<E> GetArrayList()
     {
         return this.elems;

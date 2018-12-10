@@ -1,5 +1,6 @@
 package Model;
 
+import Exceptions.StackEx;
 import Model.ADT.MyDictionary;
 import Model.ADT.MyList;
 import Model.ADT.MyStack;
@@ -8,6 +9,7 @@ import Model.Utils.Heap;
 import Model.Utils.Pair;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 
 public class ProgramState
 {
@@ -17,6 +19,7 @@ public class ProgramState
     private MyList<Integer> output;
     private MyDictionary<Integer, Pair<String, BufferedReader>> FileTable;
     private Heap heap;
+    private int id;
 
     public ProgramState(IStatement _program, MyDictionary<String, Integer> _symTable, MyStack<IStatement> _exeStack,
                         MyList<Integer> _output, MyDictionary<Integer, Pair<String, BufferedReader>> _FileTable, Heap _heap)
@@ -27,8 +30,16 @@ public class ProgramState
         this.output = _output;
         this.FileTable = _FileTable;
         this.heap = _heap;
+    }
 
-        //this.exeStack.push(program);
+    public void setId(int _id)
+    {
+        id = _id;
+    }
+
+    public int getId()
+    {
+        return id;
     }
 
     public void putPrgOnStack()
@@ -84,9 +95,19 @@ public class ProgramState
         return this.program;
     }
 
-    Boolean isNotCompleted()
+    public Boolean isNotCompleted()
     {
         return !exeStack.isEmpty();
+    }
+
+    public ProgramState oneStep() throws IOException
+    {
+        if(exeStack.isEmpty())
+            throw new StackEx("Stack is empty.");
+
+        IStatement stm = exeStack.pop();
+
+        return stm.execute(this);
     }
 
     @Override

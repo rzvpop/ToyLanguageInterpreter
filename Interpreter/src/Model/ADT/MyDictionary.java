@@ -16,6 +16,11 @@ public class MyDictionary <K, V> implements MyIDictionary<K, V>
         this.dict = new HashMap<>();
     }
 
+    public MyDictionary(MyDictionary<K, V> _my_dict)
+    {
+        this.dict = _my_dict.dict;
+    }
+
     @Override
     public void put(K k, V v)
     {
