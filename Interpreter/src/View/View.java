@@ -170,7 +170,7 @@ public class View
         repo8.add(prg8);
         InterpreterController ctrl8 = new InterpreterController(repo8);
 
-        IStatement stm9 = new CompoundStm(new AssignmentStm("v", new ConstExp(10)),
+       /* IStatement stm9 = new CompoundStm(new AssignmentStm("v", new ConstExp(10)),
                             new CompoundStm(new New("a", new ConstExp(22)),
                             new CompoundStm(new Fork(
                             new CompoundStm(new WH("a", new ConstExp(30)),
@@ -180,6 +180,11 @@ public class View
                                                 ),
                             new CompoundStm(new PrintStm(new VarExp("v")),
                                                             new PrintStm(new RH("a"))))));
+*/
+
+        IStatement stm9 = new CompoundStm(new New("a", new ConstExp(20)),
+                            new CompoundStm(new AssignmentStm("a", new ConstExp(0)),
+                                            new PrintStm(new RH("a"))));
 
         MyStack<IStatement> exe_stack9 = new MyStack<>(5);
         MyDictionary<String, Integer> sym_table9 = new MyDictionary<>();

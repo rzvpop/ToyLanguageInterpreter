@@ -90,8 +90,9 @@ public class InterpreterController
 
         while(prgs.size() > 0)
         {
-            prgs.forEach(prg -> conservativeGarbageCollector(prg.getSymTable().getValues(),
-                    heap_map));
+            //fac un symtable cu toate
+            prgs.forEach(prg -> FirstProgramState.getHeap().setMap((HashMap<Integer, Integer>)conservativeGarbageCollector(prg.getSymTable().getValues(),
+                    heap_map)));
             oneStepForAll(prgs);
             prgs = removeCompletedPrg(repo.GetList());
         }
