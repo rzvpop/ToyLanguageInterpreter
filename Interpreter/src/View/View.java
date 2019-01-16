@@ -21,12 +21,6 @@ public class View
 {
     public static void main(String[] args)
     {
-        /*StringBuilder filename;
-        System.out.println("Give filename of LogFile:");
-        Scanner read = new Scanner(System.in);
-        filename = new StringBuilder();
-        filename.append(read.next());*/
-
         MyStack<IStatement> exe_stack1 = new MyStack<>(5);
         MyDictionary<String, Integer> sym_table1 = new MyDictionary<>();
         MyList<Integer> out1 = new MyList<>();
