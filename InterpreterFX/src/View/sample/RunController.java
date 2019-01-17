@@ -11,8 +11,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -58,7 +61,10 @@ public class RunController implements Initializable
         if(currSelected == -1)
             return null;
 
-        return prg_states.get(currSelected);
+        if(prg_states.size() > currSelected)
+            return prg_states.get(currSelected);
+
+        return null;
     }
 
     @Override
@@ -111,9 +117,10 @@ public class RunController implements Initializable
             return;
         }
 
-        List<ProgramState> prg_states = interpreter_ctrl.getRepo().GetList();
         try {
-            interpreter_ctrl.oneStepForAll(prg_states);
+            interpreter_ctrl.exeOneStepIndep();
+            changePrgState(getCurrPrgState());
+            populatePrgStateIndetView();
         } catch (InterruptedException e) {
             Alert inter_exception = new Alert(Alert.AlertType.ERROR, e.toString(), ButtonType.OK);
             inter_exception.showAndWait();
@@ -122,9 +129,9 @@ public class RunController implements Initializable
         {
             System.out.println(e.toString());
         }
-
-        changePrgState(getCurrPrgState());
-        populatePrgStateIndetView();
+        Media hit = new Media(new File("punch.wav").toURI().toString());
+        MediaPlayer mp = new MediaPlayer(hit);
+        mp.play();
     }
 
     private List<Integer> getPrgStateIds(List<ProgramState> prg_states)
@@ -190,6 +197,8 @@ public class RunController implements Initializable
         {
             list_exe_stack.add(stm.toString());
         }
+
+        Collections.reverse(list_exe_stack);
 
         exe_stack_list_view.setItems(FXCollections.observableList(list_exe_stack));
         exe_stack_list_view.refresh();

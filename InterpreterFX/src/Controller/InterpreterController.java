@@ -45,7 +45,7 @@ public class InterpreterController
         }
     }
 
-    List<ProgramState> removeCompletedPrg(List<ProgramState> oldList)
+    public List<ProgramState> removeCompletedPrg(List<ProgramState> oldList)
     {
         return oldList.stream().filter(ProgramState::isNotCompleted).
                 collect(Collectors.toList());
@@ -72,6 +72,29 @@ public class InterpreterController
 
         prgs.forEach(prg -> repo.logPrgStateExec(prg));
         repo.SetList(prgs);
+    }
+
+    public void exeOneStepIndep() throws InterruptedException
+    {
+        executor = Executors.newFixedThreadPool(2);
+
+        List<ProgramState> prgs = repo.GetList();
+        if(repo.GetList() != null)
+            prgs = removeCompletedPrg(repo.GetList());
+
+        oneStepForAll(prgs);
+
+        try
+        {
+            prgs.forEach(e -> {repo.logPrgStateExec(e);});
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.toString());
+        }
+
+        repo.SetList(prgs);
+        executor.shutdownNow();
     }
 
     public void allStep() throws UndeclaredEx, StackEx, ExprEx, IOException, AlreadyOpenedFileEx, InexVarEx, MemoryEx, InterruptedException
