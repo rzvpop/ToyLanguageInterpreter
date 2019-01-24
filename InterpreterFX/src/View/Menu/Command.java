@@ -1,7 +1,5 @@
 package View.Menu;
 
-import View.View;
-
 public abstract class Command
 {
     private String key, description;
